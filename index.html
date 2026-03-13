@@ -628,47 +628,19 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-async function handleWaitlist() {
-  const input = document.getElementById('emailInput');
-  const btn = document.getElementById('waitlistBtn');
+function handleWaitlist() {
+  const email = document.getElementById('emailInput').value.trim();
   const note = document.getElementById('waitlistNote');
-  const email = input.value.trim();
-
   if (!email || !email.includes('@')) {
     note.innerHTML = '⚠️ Entre une adresse email valide.';
     note.style.color = '#F5A623';
     return;
   }
-
-  btn.textContent = '...';
-  btn.disabled = true;
-
-  try {
-    const response = await fetch('/api/subscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error);
-    if (data.duplicate) {
-      note.innerHTML = '✅ Tu es déjà sur la liste — on se retrouve au lancement !';
-      note.style.color = '#1EC8A0';
-      input.value = '';
-      btn.textContent = 'Rejoindre →';
-      btn.disabled = false;
-      return;
-    }
-    note.innerHTML = '✅ Bienvenue dans la communauté BeVerified ! Tu seras parmi les premiers à être contacté.';
-    note.style.color = '#1EC8A0';
-    input.value = '';
-  } catch(err) {
-    note.innerHTML = '⚠️ Une erreur est survenue. Écris-nous à hello@beverified.fr';
-    note.style.color = '#F5A623';
-  } finally {
-    btn.textContent = 'Rejoindre →';
-    btn.disabled = false;
-  }
+  const url = 'https://docs.google.com/forms/d/e/1FAIpQLSdFtaWbQTKv97KzP0zdVib0vejkbVwjyYb9rJOUU7nFjYPWrQ/viewform?usp=publish-editor';
+  window.open(url, '_blank');
+  note.innerHTML = '✅ Bienvenue dans la communauté BeVerified ! Tu seras parmi les premiers à être contacté.';
+  note.style.color = '#1EC8A0';
+  document.getElementById('emailInput').value = '';
 }
 
 document.querySelectorAll('.filter-chip, .toolbar-chip').forEach(chip => {
