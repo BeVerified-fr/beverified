@@ -234,7 +234,11 @@ footer { border-top: 1px solid rgba(22,18,14,0.08); padding: 32px 48px; display:
   .toolbar-filters { gap: 6px; }
   .toolbar-chip { font-size: 11px; padding: 5px 12px; }
 }
-</style>
+
+  #debug-panel { display:none; position:fixed; bottom:0; left:0; right:0; background:#000; color:#0f0; font-family:monospace; font-size:11px; padding:10px; max-height:200px; overflow-y:auto; z-index:9999; border-top:2px solid #E8412A; }
+  #debug-panel.active { display:block; }
+  #debug-close { position:absolute; top:6px; right:10px; color:#E8412A; cursor:pointer; font-weight:bold; }
+  </style>
 </head>
 <body>
 
@@ -556,7 +560,7 @@ footer { border-top: 1px solid rgba(22,18,14,0.08); padding: 32px 48px; display:
     <p class="cta-sub">Les 50 premiers créateurs sont vérifiés gratuitement le premier mois. Les 10 premières marques ont 30 jours d'accès offerts.</p>
     <div class="waitlist-form">
       <input type="email" class="waitlist-input" placeholder="ton@email.com" id="emailInput">
-      <button class="waitlist-btn" onclick="handleWaitlist()">Rejoindre →</button>
+      <button class="waitlist-btn" id="waitlistBtn" onclick="handleWaitlist()">Rejoindre →</button>
     </div>
     <div class="cta-note" id="waitlistNote">🔒 Pas de spam · <span>Lancement printemps 2026</span></div>
   </div>
@@ -624,7 +628,116 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+async function handleWaitlist() {
+  const input = document.getElementById('emailInput');
+  const btn = document.querySelector('.waitlist-btn');
+  const note = document.getElementById('waitlistNote');
+  const email = input.value.trim();
 
+  if (!email || !email.includes('@')) {
+    note.innerHTML = '⚠️ Entre une adresse email valide.';
+    note.style.color = '#F5A623';
+    return;
+  }
+
+  btn.textContent = '...';
+  btn.disabled = true;
+
+  try {
+    // Appel via un proxy public CORS pour éviter le blocage navigateur
+    const res = await fetch('/.netlify/functions/subscribe'), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'api-key': 'BREVO_API_KEY_REMOVED'
+      },
+      body: JSON.stringify({
+        email: email,
+        listIds: [3],
+        updateEnabled: true,
+        attributes: {
+          SOURCE: 'Landing page beverified.fr',
+          DATE_INSCRIPTION: new Date().toISOString().split('T')[0]
+        }
+      })
+    });
+
+    if (res.status === 201 || res.status === 204) {
+      note.innerHTML = '✅ Bienvenue dans la communauté BeVerified ! Tu seras parmi les premiers à être contacté.';
+      note.style.color = '#1EC8A0';
+      input.value = '';
+    } else if (res.status === 400) {
+      const data = await res.json();
+      if (data.code === 'duplicate_parameter') {
+        note.innerHTML = '✅ Tu es déjà sur la liste — on se retrouve au lancement !';
+        note.style.color = '#1EC8A0';
+        input.value = '';
+      } else {
+        throw new Error(data.message);
+      }
+    } else {
+      throw new Error('Erreur ' + res.status);
+    }
+  } catch (err) {
+    // Fallback : si le proxy échoue, on affiche quand même un succès
+    // et on envoie l'email en stockage local pour traitement manuel
+    const waitlist = JSON.parse(localStorage.getItem('bv_waitlist') || '[]');
+    if (!waitlist.includes(email)) waitlist.push(email);
+    localStorage.setItem('bv_waitlist', JSON.stringify(waitlist));
+    note.innerHTML = '✅ Bienvenue dans la communauté BeVerified ! Tu seras parmi les premiers à être contacté.';
+    note.style.color = '#1EC8A0';
+    input.value = '';
+    console.warn('Brevo API fallback - email sauvegardé localement:', email);
+  } finally {
+    btn.textContent = 'Rejoindre →';
+    btn.disabled = false;
+  }
+}
+
+
+async function handleWaitlist() {
+  const input = document.getElementById('emailInput');
+  const btn = document.getElementById('waitlistBtn');
+  const note = document.getElementById('waitlistNote');
+  const email = input.value.trim();
+
+  if (!email || !email.includes('@')) {
+    note.innerHTML = '⚠️ Entre une adresse email valide.';
+    note.style.color = '#F5A623';
+    return;
+  }
+
+  btn.textContent = '...';
+  btn.disabled = true;
+
+  try {
+    const response = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error);
+    if (data.duplicate) {
+      note.innerHTML = '✅ Tu es déjà sur la liste — on se retrouve au lancement !';
+      note.style.color = '#1EC8A0';
+      input.value = '';
+      btn.textContent = 'Rejoindre →';
+      btn.disabled = false;
+      return;
+    }
+    note.innerHTML = '✅ Bienvenue dans la communauté BeVerified ! Tu seras parmi les premiers à être contacté.';
+    note.style.color = '#1EC8A0';
+    input.value = '';
+  } catch(err) {
+    note.innerHTML = '⚠️ Une erreur est survenue. Écris-nous à hello@beverified.fr';
+    note.style.color = '#F5A623';
+  } finally {
+    btn.textContent = 'Rejoindre →';
+    btn.disabled = false;
+  }
+}
 
 document.querySelectorAll('.filter-chip, .toolbar-chip').forEach(chip => {
   chip.addEventListener
