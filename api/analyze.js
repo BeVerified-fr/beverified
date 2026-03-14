@@ -6,21 +6,20 @@ export default async function handler(req, res) {
   const { handle } = req.body;
   if (!handle) return res.status(400).json({ error: 'Handle manquant' });
 
-  const HOST = 'instagram-scraper-stable-api.p.rapidapi.com';
+  const HOST = 'instagram-looter2.p.rapidapi.com';
   const KEY = process.env.RAPIDAPI_KEY;
 
   if (!KEY) return res.status(500).json({ error: 'Clé API non configurée' });
 
   try {
-    // 1. Profil
-    const profileRes = await fetch(`https://${HOST}/ig_get_fb_profile_v3.php`, {
-      method: 'POST',
+    // 1. Profil via Instagram Looter (données fraîches)
+    const profileRes = await fetch(`https://${HOST}/profile2?username=${handle}`, {
+      method: 'GET',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         'x-rapidapi-host': HOST,
         'x-rapidapi-key': KEY
-      },
-      body: new URLSearchParams({ username: handle }).toString()
+      }
     });
 
     if (!profileRes.ok) {
@@ -41,17 +40,16 @@ export default async function handler(req, res) {
     // 2. Posts récents
     let recentPosts = [];
     try {
-      const postsRes = await fetch(`https://${HOST}/ig_get_user_posts.php`, {
-        method: 'POST',
+      const postsRes = await fetch(`https://${HOST}/posts?username=${handle}&count=5`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
           'x-rapidapi-host': HOST,
           'x-rapidapi-key': KEY
-        },
-        body: new URLSearchParams({ username: handle }).toString()
+        }
       });
       const postsJson = await postsRes.json();
-      const rawPosts = postsJson.data || postsJson.posts || [];
+      const rawPosts = postsJson.data || postsJson.posts || postsJson || [];
       if (Array.isArray(rawPosts)) {
         recentPosts = rawPosts.slice(0, 5).map((p, i) => {
           const likes = p.like_count || p.likes || p.edge_media_preview_like?.count || 0;
@@ -62,12 +60,10 @@ export default async function handler(req, res) {
       }
     } catch (e) { /* posts indisponibles */ }
 
-    // Calcul engagement moyen
     const avgEng = recentPosts.length > 0
       ? recentPosts.reduce((s, p) => s + p.engagement, 0) / recentPosts.length
       : estimateEng(followers);
 
-    // Score authenticité estimé
     const ratio = followers / Math.max(following, 1);
     let authScore = 75;
     if (ratio > 20) authScore = Math.floor(Math.random() * 8 + 87);
