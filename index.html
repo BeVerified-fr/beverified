@@ -560,7 +560,7 @@ footer { border-top: 1px solid rgba(22,18,14,0.08); padding: 32px 48px; display:
     <p class="cta-sub">Les 50 premiers créateurs sont vérifiés gratuitement le premier mois. Les 10 premières marques ont 30 jours d'accès offerts.</p>
     <div class="waitlist-form">
       <input type="email" class="waitlist-input" placeholder="ton@email.com" id="emailInput">
-      <button class="waitlist-btn" id="waitlistBtn" onclick="handleWaitlist()">Rejoindre →</button>
+      <button class="waitlist-btn" id="waitlistBtn">Rejoindre →</button>
     </div>
     <div class="cta-note" id="waitlistNote">🔒 Pas de spam · <span>Lancement printemps 2026</span></div>
   </div>
@@ -623,40 +623,7 @@ footer { border-top: 1px solid rgba(22,18,14,0.08); padding: 32px 48px; display:
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
-function handleWaitlist() {
-  var email = document.getElementById('emailInput').value.trim();
-  var note = document.getElementById('waitlistNote');
-  var btn = document.getElementById('waitlistBtn');
-  if (!email || email.indexOf('@') === -1) {
-    note.innerHTML = '⚠️ Entre une adresse email valide.';
-    note.style.color = '#F5A623';
-    return;
-  }
-  btn.textContent = '...';
-  btn.disabled = true;
-  note.innerHTML = '⏳ Inscription en cours...';
-  note.style.color = 'white';
-  fetch('/api/subscribe', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    note.innerHTML = '✅ Bienvenue dans la communauté BeVerified ! Tu seras parmi les premiers à être contacté.';
-    note.style.color = '#1EC8A0';
-    document.getElementById('emailInput').value = '';
-  })
-  .catch(function() {
-    note.innerHTML = '✅ Bienvenue dans la communauté BeVerified ! Tu seras parmi les premiers à être contacté.';
-    note.style.color = '#1EC8A0';
-    document.getElementById('emailInput').value = '';
-  })
-  .finally(function() {
-    btn.textContent = 'Rejoindre →';
-    btn.disabled = false;
-  });
-}
+
 </script><script>
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
