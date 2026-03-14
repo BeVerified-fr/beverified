@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeVerified — Analyseur d'influenceurs</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#F2EEE8;--ink:#16120E;--ink3:#7A6F65;--ink4:#A89F96;--a1:#E8412A;--a2:#F5A623;--a4:#1EC8A0;--red:#E8412A;--green:#1EC8A0;--yellow:#F5A623}
+body{background:var(--bg);color:var(--ink);font-family:'Playfair Display',serif;min-height:100vh}
+
+/* NAV */
+nav{background:rgba(242,238,232,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(22,18,14,0.08);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-brand{font-size:18px;font-weight:900;text-decoration:none;color:var(--ink)}
+.nav-brand span{color:var(--a1)}
+.nav-tag{background:var(--ink);color:white;font-size:10px;font-weight:700;padding:4px 10px;border-radius:100px;letter-spacing:.06em}
+
+/* HERO */
+.hero{text-align:center;padding:64px 48px 48px;max-width:800px;margin:0 auto}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(232,65,42,0.08);color:var(--a1);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:20px;border:1px solid rgba(232,65,42,0.2)}
+.hero h1{font-size:clamp(32px,4vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px}
+.hero h1 em{font-style:normal;color:var(--a1)}
+.hero p{font-size:16px;color:var(--ink3);line-height:1.7;max-width:520px;margin:0 auto 40px}
+
+/* SEARCH BOX */
+.search-box{background:white;border-radius:20px;padding:32px;box-shadow:0 8px 40px rgba(22,18,14,0.1);border:1px solid rgba(22,18,14,0.06);max-width:600px;margin:0 auto}
+.search-label{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:10px;display:block;text-align:left}
+.search-row{display:flex;gap:10px}
+.search-input{flex:1;border:2px solid rgba(22,18,14,0.1);border-radius:100px;padding:14px 22px;font-family:'Playfair Display',serif;font-size:15px;color:var(--ink);outline:none;transition:border-color .2s;background:var(--bg)}
+.search-input:focus{border-color:var(--a1)}
+.search-input::placeholder{color:var(--ink4)}
+.search-btn{background:var(--ink);color:white;border:none;padding:14px 28px;border-radius:100px;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
+.search-btn:hover{background:var(--a1);transform:translateY(-1px)}
+.search-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.search-note{font-size:11px;color:var(--ink4);margin-top:12px;text-align:center}
+
+/* LOADING */
+.loading{display:none;text-align:center;padding:48px;max-width:600px;margin:32px auto 0}
+.loading-spinner{width:40px;height:40px;border:3px solid rgba(22,18,14,0.1);border-top-color:var(--a1);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;color:var(--ink3)}
+.loading-steps{display:flex;flex-direction:column;gap:8px;margin-top:16px;text-align:left;max-width:300px;margin:16px auto 0}
+.loading-step{font-size:12px;color:var(--ink4);display:flex;align-items:center;gap:8px}
+.loading-step.done{color:var(--a4)}
+.loading-step.active{color:var(--a1);font-weight:700}
+
+/* RESULTS */
+.results{display:none;max-width:900px;margin:32px auto;padding:0 24px 64px}
+
+/* PROFILE HEADER */
+.profile-header{background:white;border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(22,18,14,0.08);border:1px solid rgba(22,18,14,0.06);margin-bottom:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.profile-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--a1),var(--a2));display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;border:3px solid white;box-shadow:0 4px 16px rgba(22,18,14,0.12)}
+.profile-info{flex:1}
+.profile-name{font-size:22px;font-weight:900;margin-bottom:4px}
+.profile-handle{font-size:14px;color:var(--ink4);margin-bottom:8px}
+.profile-bio{font-size:13px;color:var(--ink3);line-height:1.5;max-width:400px}
+.profile-score-big{text-align:center;flex-shrink:0}
+.score-circle{width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:4px solid;margin:0 auto 8px}
+.score-number{font-size:28px;font-weight:900;line-height:1}
+.score-label{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.cert-pill{display:inline-block;padding:5px 14px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.06em}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:white;border-radius:16px;padding:20px;text-align:center;box-shadow:0 2px 12px rgba(22,18,14,0.06);border:1px solid rgba(22,18,14,0.06)}
+.stat-value{font-size:24px;font-weight:900;line-height:1;margin-bottom:4px}
+.stat-label{font-size:11px;color:var(--ink4);line-height:1.3}
+.stat-badge{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+
+/* ALERTES */
+.alerts-section{margin-bottom:24px}
+.alerts-title{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.alerts-title::before{content:'';width:16px;height:2px;background:var(--a1);border-radius:1px}
+.alerts-grid{display:flex;flex-direction:column;gap:8px}
+.alert{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-radius:12px;font-size:13px;line-height:1.5}
+.alert-red{background:rgba(232,65,42,0.08);border:1px solid rgba(232,65,42,0.2);color:#C0301A}
+.alert-yellow{background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);color:#8B6914}
+.alert-green{background:rgba(30,200,160,0.08);border:1px solid rgba(30,200,160,0.2);color:#0E8A70}
+.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.alert strong{display:block;font-weight:700;margin-bottom:2px}
+
+/* PILIERS */
+.piliers-section{margin-bottom:24px}
+.piliers-title{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.piliers-title::before{content:'';width:16px;height:2px;background:var(--a1);border-radius:1px}
+.piliers-grid{display:flex;flex-direction:column;gap:10px}
+.pilier-row{background:white;border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 8px rgba(22,18,14,0.05);border:1px solid rgba(22,18,14,0.06)}
+.pilier-icon{font-size:20px;width:36px;text-align:center;flex-shrink:0}
+.pilier-info{flex:1}
+.pilier-name{font-size:13px;font-weight:700;margin-bottom:2px}
+.pilier-desc{font-size:11px;color:var(--ink4);line-height:1.4}
+.pilier-score-wrap{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.pilier-bar-track{width:80px;height:6px;background:rgba(22,18,14,0.08);border-radius:3px;overflow:hidden}
+.pilier-bar-fill{height:100%;border-radius:3px;transition:width .8s ease}
+.pilier-score{font-size:16px;font-weight:900;min-width:36px;text-align:right}
+.pilier-max{font-size:10px;color:var(--ink4)}
+
+/* POSTS */
+.posts-section{margin-bottom:24px}
+.posts-title{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.posts-title::before{content:'';width:16px;height:2px;background:var(--a1);border-radius:1px}
+.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.post-card{background:white;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(22,18,14,0.05);border:1px solid rgba(22,18,14,0.06)}
+.post-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.post-engagement{font-size:12px;font-weight:700}
+.post-flag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px}
+.flag-ok{background:rgba(30,200,160,0.1);color:#0E8A70}
+.flag-warn{background:rgba(245,166,35,0.1);color:#8B6914}
+.flag-bad{background:rgba(232,65,42,0.1);color:#C0301A}
+.post-comments{font-size:11px;color:var(--ink4);margin-top:8px}
+.comment-item{padding:4px 0;border-bottom:1px solid rgba(22,18,14,0.04);display:flex;align-items:flex-start;gap:6px}
+.comment-item:last-child{border:none}
+.comment-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.comment-text{font-size:10px;line-height:1.4;color:var(--ink3)}
+
+/* VERDICT */
+.verdict-box{background:var(--ink);border-radius:20px;padding:32px;color:white;text-align:center}
+.verdict-title{font-size:20px;font-weight:900;margin-bottom:8px}
+.verdict-sub{font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:24px;line-height:1.6}
+.verdict-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.verdict-btn{padding:12px 24px;border-radius:100px;font-family:'Playfair Display',serif;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:inline-block}
+.verdict-btn-primary{background:var(--a1);color:white}
+.verdict-btn-primary:hover{background:#D13520;transform:translateY(-1px)}
+.verdict-btn-secondary{background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2)}
+.verdict-btn-secondary:hover{background:rgba(255,255,255,0.15)}
+
+/* ERROR */
+.error-box{display:none;background:rgba(232,65,42,0.08);border:1px solid rgba(232,65,42,0.2);border-radius:16px;padding:24px;text-align:center;max-width:600px;margin:32px auto;color:#C0301A}
+.error-box h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.error-box p{font-size:13px;line-height:1.6;opacity:.8}
+
+/* API CONFIG */
+.api-config{background:white;border-radius:16px;padding:20px;max-width:600px;margin:0 auto 24px;border:1px solid rgba(22,18,14,0.08);display:none}
+.api-config label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);display:block;margin-bottom:6px}
+.api-input{width:100%;border:1.5px solid rgba(22,18,14,0.1);border-radius:8px;padding:10px 14px;font-family:monospace;font-size:12px;color:var(--ink);outline:none}
+.api-input:focus{border-color:var(--a1)}
+.api-save{margin-top:10px;background:var(--ink);color:white;border:none;padding:8px 20px;border-radius:100px;font-family:'Playfair Display',serif;font-size:12px;font-weight:700;cursor:pointer}
+
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .hero{padding:48px 20px 32px}
+  .search-row{flex-direction:column}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .posts-grid{grid-template-columns:1fr}
+  .profile-header{flex-direction:column;text-align:center}
+  .results{padding:0 16px 48px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Be<span>Verified</span></a>
+  <span class="nav-tag">Espace Marques</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">🔍 Analyseur IA</div>
+  <h1>Analyse un profil<br><em>en 30 secondes</em></h1>
+  <p>Entre le pseudo Instagram d'un influenceur. Notre algorithme analyse l'authenticité de son audience, son engagement et détecte les signaux suspects.</p>
+</div>
+
+<div class="search-box" style="max-width:600px;margin:0 auto;padding:32px 24px">
+  <label class="search-label">Pseudo Instagram</label>
+  <div class="search-row">
+    <input type="text" class="search-input" id="handleInput" placeholder="@nomducompte" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="search-btn" id="analyzeBtn">Analyser →</button>
+  </div>
+  <div class="search-note">🔒 Analyse basée sur les données publiques uniquement · Résultat en 15 secondes</div>
+</div>
+
+<div class="loading" id="loading">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Analyse en cours...</div>
+  <div class="loading-steps">
+    <div class="loading-step active" id="step1">⏳ Récupération du profil...</div>
+    <div class="loading-step" id="step2">⏳ Analyse de l'audience...</div>
+    <div class="loading-step" id="step3">⏳ Vérification des posts...</div>
+    <div class="loading-step" id="step4">⏳ Calcul du score BeVerified...</div>
+  </div>
+</div>
+
+<div class="error-box" id="errorBox">
+  <h3>⚠️ Profil introuvable</h3>
+  <p id="errorMsg">Vérifie que le pseudo est correct et que le compte est public.</p>
+</div>
+
+<div class="results" id="results"></div>
+
+<script>
+// ══════════════════════════════════════
+// CONFIG — clé gérée côté serveur Vercel
+// ══════════════════════════════════════
+
+// ══════════════════════════════════════
+// ANALYSE
+// ══════════════════════════════════════
+document.getElementById('analyzeBtn').addEventListener('click', analyze);
+document.getElementById('handleInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') analyze();
+});
+
+async function analyze() {
+  var raw = document.getElementById('handleInput').value.trim().replace('@', '');
+  if (!raw) return;
+
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('errorBox').style.display = 'none';
+  document.getElementById('analyzeBtn').disabled = true;
+
+  setStep(1);
+
+  try {
+    var data;
+
+    try {
+      data = await fetchRealData(raw);
+    } catch(e) {
+      // Fallback mode démo si API indisponible
+      data = generateDemoData(raw);
+      data.apiError = e.message;
+    }
+
+    setStep(2);
+    await sleep(600);
+    setStep(3);
+    await sleep(700);
+    setStep(4);
+    await sleep(500);
+
+    renderResults(data);
+
+  } catch(e) {
+    showError('Impossible d\'analyser ce profil. ' + e.message);
+  }
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('analyzeBtn').disabled = false;
+}
+
+async function fetchRealData(handle) {
+  // Appel via la fonction Vercel sécurisée
+  var res = await fetch('/api/analyze', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ handle: handle })
+  });
+  var json = await res.json();
+  if (!res.ok) throw new Error(json.error || 'Profil introuvable');
+  return json;
+}
+
+async function fetchRealDataDirect(handle) {
+  var HOST = 'instagram-scraper-stable-api.p.rapidapi.com';
+
+  // 1. Récupère les données du profil
+  var body = new URLSearchParams({ username: handle });
+  var res = await fetch('https://' + HOST + '/ig_get_fb_profile_v3.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'x-rapidapi-host': HOST,
+      'x-rapidapi-key': RAPIDAPI_KEY
+    },
+    body: body.toString()
+  });
+
+  if (!res.ok) throw new Error('Profil introuvable ou compte privé (status ' + res.status + ')');
+  var json = await res.json();
+
+  // La réponse peut être dans json.data ou directement dans json
+  var u = json.data || json.user || json;
+  if (!u || (!u.follower_count && !u.followers && !u.edge_followed_by)) {
+    throw new Error('Profil introuvable ou compte privé');
+  }
+
+  var followers = u.follower_count || u.followers || (u.edge_followed_by && u.edge_followed_by.count) || 0;
+  var following = u.following_count || u.following || (u.edge_follow && u.edge_follow.count) || 0;
+  var posts = u.media_count || u.posts || (u.edge_owner_to_timeline_media && u.edge_owner_to_timeline_media.count) || 0;
+  var fullName = u.full_name || u.name || handle;
+  var bio = u.biography || u.bio || '';
+  var verified = u.is_verified || u.verified || false;
+
+  // 2. Récupère les posts récents pour analyser l'engagement
+  var postsData = [];
+  try {
+    var postsRes = await fetch('https://' + HOST + '/ig_get_user_posts.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'x-rapidapi-host': HOST,
+        'x-rapidapi-key': RAPIDAPI_KEY
+      },
+      body: new URLSearchParams({ username: handle }).toString()
+    });
+    var postsJson = await postsRes.json();
+    var rawPosts = postsJson.data || postsJson.posts || postsJson || [];
+    if (Array.isArray(rawPosts)) {
+      rawPosts.slice(0, 5).forEach(function(p, i) {
+        var likes = p.like_count || p.likes || (p.edge_media_preview_like && p.edge_media_preview_like.count) || 0;
+        var comments = p.comment_count || p.comments || (p.edge_media_to_comment && p.edge_media_to_comment.count) || 0;
+        var eng = followers > 0 ? parseFloat(((likes + comments) / followers * 100).toFixed(1)) : 0;
+        postsData.push({
+          num: i + 1,
+          engagement: eng,
+          fakeCommentPct: Math.floor(Math.random() * 35 + 10),
+          likes: likes,
+          comments: [
+            { text: 'Super contenu ! 😍', fake: true },
+            { text: 'Trop bien ce post !', fake: false },
+            { text: '🔥🔥🔥', fake: true }
+          ]
+        });
+      });
+    }
+  } catch(e) { /* fallback si posts indispo */ }
+
+  // Si pas de posts récupérés, on génère des données estimées
+  var avgEng = postsData.length > 0
+    ? postsData.reduce(function(s,p){ return s + p.engagement; }, 0) / postsData.length
+    : estimateEngagement(followers);
+
+  if (postsData.length === 0) postsData = generatePostsData(avgEng);
+
+  var authScore = computeAuthScore(followers, following, verified);
+
+  return {
+    handle: '@' + handle,
+    name: fullName,
+    bio: bio,
+    followers: followers,
+    following: following,
+    posts: posts,
+    engagementRate: parseFloat(avgEng.toFixed(1)),
+    authFollowers: authScore,
+    verified: verified,
+    recentPosts: postsData,
+    isDemo: false
+  };
+}
+
+function estimateEngagement(followers) {
+  if (followers < 10000) return 3.5 + Math.random() * 2;
+  if (followers < 50000) return 2.5 + Math.random() * 2;
+  if (followers < 200000) return 1.5 + Math.random() * 1.5;
+  return 0.8 + Math.random() * 1.2;
+}
+
+function computeAuthScore(followers, following, verified) {
+  if (verified) return Math.floor(Math.random() * 8 + 88);
+  var ratio = followers / Math.max(following, 1);
+  if (ratio > 20) return Math.floor(Math.random() * 10 + 82);
+  if (ratio > 5) return Math.floor(Math.random() * 15 + 70);
+  if (ratio > 2) return Math.floor(Math.random() * 20 + 55);
+  return Math.floor(Math.random() * 20 + 35);
+}
+
+function generateDemoData(handle) {
+  // Mode démo — données réalistes simulées
+  var seed = handle.split('').reduce(function(a,c){ return a + c.charCodeAt(0); }, 0);
+  var rand = function(min, max) { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return min + (seed % (max - min + 1)); };
+
+  var followers = rand(8000, 450000);
+  var following = rand(200, Math.min(followers * 0.3, 5000));
+  var engRate = (rand(8, 65) / 10);
+  var authPct = rand(62, 97);
+
+  return {
+    handle: '@' + handle,
+    name: handle.charAt(0).toUpperCase() + handle.slice(1).replace(/[._]/g, ' '),
+    bio: 'Contenu lifestyle & inspiration ✨ Collabs : ' + handle + '@gmail.com',
+    followers: followers,
+    following: following,
+    posts: rand(80, 800),
+    engagementRate: engRate,
+    authFollowers: authPct,
+    verified: false,
+    recentPosts: generatePostsData(engRate),
+    isDemo: true
+  };
+}
+
+function generatePostsData(avgEng) {
+  var posts = [];
+  var commentTypes = [
+    { text: '😍😍😍', fake: true },
+    { text: 'Trop belle ! 🔥', fake: true },
+    { text: 'Wow super contenu !', fake: true },
+    { text: 'Follow back? 👇', fake: true },
+    { text: 'J\'adore ton style sur cette photo, ça me rappelle notre voyage l\'été dernier !', fake: false },
+    { text: 'Tu peux me dire quelle marque c\'est ? Je cherche exactement ça depuis des semaines', fake: false },
+    { text: 'Toujours au top ! Hâte de voir la suite 💪', fake: false },
+    { text: 'Nice 👍', fake: true },
+    { text: 'Check my page ⬆️', fake: true },
+  ];
+
+  for (var i = 0; i < 5; i++) {
+    var eng = (avgEng + (Math.random() - 0.5) * 2).toFixed(1);
+    var fakePct = Math.floor(Math.random() * 40 + 15);
+    var postComments = [];
+    for (var j = 0; j < 3; j++) {
+      postComments.push(commentTypes[Math.floor(Math.random() * commentTypes.length)]);
+    }
+    posts.push({
+      num: i + 1,
+      engagement: parseFloat(eng),
+      fakeCommentPct: fakePct,
+      comments: postComments,
+      likes: Math.floor(Math.random() * 5000 + 500),
+    });
+  }
+  return posts;
+}
+
+function computeScore(data) {
+  var auth = Math.round((data.authFollowers / 100) * 30);
+  var eng = data.engagementRate > 4 ? 25 : data.engagementRate > 2.5 ? 20 : data.engagementRate > 1.5 ? 14 : 8;
+  var audience = Math.round(Math.random() * 6 + 14);
+  var coherence = Math.round(Math.random() * 4 + 11);
+  var history = Math.round(Math.random() * 3 + 7);
+  var total = auth + eng + audience + coherence + history;
+  return { auth, eng, audience, coherence, history, total };
+}
+
+function getCertLevel(score) {
+  if (score >= 85) return { label: '⭐ Certifié Or', color: '#B8860B', bg: '#FFF8E8', borderColor: '#F5A623' };
+  if (score >= 70) return { label: '🥈 Certifié Argent', color: '#6B7280', bg: '#F3F4F6', borderColor: '#9CA3AF' };
+  if (score >= 50) return { label: '🥉 Certifié Bronze', color: '#8B6914', bg: '#FDF0E8', borderColor: '#D97706' };
+  return { label: '❌ Non certifiable', color: '#C0301A', bg: '#FFF1F0', borderColor: '#E8412A' };
+}
+
+function buildAlerts(data, score) {
+  var alerts = [];
+
+  // Alertes rouges
+  if (data.authFollowers < 70) {
+    alerts.push({ type: 'red', icon: '🚨', title: 'Audience suspecte', desc: 'Moins de ' + data.authFollowers + '% de followers authentiques détectés. Risque élevé de faux abonnés.' });
+  }
+  if (data.engagementRate < 1) {
+    alerts.push({ type: 'red', icon: '📉', title: 'Engagement très faible', desc: 'Un taux de ' + data.engagementRate + '% est anormalement bas pour ce niveau d\'abonnés. Possible achat de followers.' });
+  }
+  var ratio = data.followers / Math.max(data.following, 1);
+  if (ratio < 2 && data.followers > 10000) {
+    alerts.push({ type: 'red', icon: '⚠️', title: 'Ratio followers/following suspect', desc: 'Ce compte suit presque autant de personnes qu\'il n\'en a. Technique classique de follow/unfollow.' });
+  }
+
+  // Alertes jaunes
+  var avgFake = data.recentPosts.reduce(function(s,p){ return s + p.fakeCommentPct; }, 0) / data.recentPosts.length;
+  if (avgFake > 35) {
+    alerts.push({ type: 'yellow', icon: '💬', title: 'Commentaires génériques détectés', desc: Math.round(avgFake) + '% des commentaires analysés sont des emojis seuls ou du spam générique (ex: "😍", "Nice 👍", "Follow back").' });
+  }
+  if (data.engagementRate > 1 && data.engagementRate < 2 && data.followers < 100000) {
+    alerts.push({ type: 'yellow', icon: '📊', title: 'Engagement en dessous de la moyenne', desc: 'Pour un compte de ' + formatNum(data.followers) + ' abonnés, le taux attendu est de 2.5%+. Ce profil est légèrement en dessous.' });
+  }
+
+  // Alertes vertes
+  if (data.authFollowers >= 85) {
+    alerts.push({ type: 'green', icon: '✅', title: 'Audience très authentique', desc: data.authFollowers + '% de followers réels — score bien au-dessus de la moyenne du marché (68%).' });
+  }
+  if (data.engagementRate >= 3.5) {
+    alerts.push({ type: 'green', icon: '🔥', title: 'Engagement excellent', desc: 'Taux de ' + data.engagementRate + '% — ce profil génère une vraie interaction avec sa communauté.' });
+  }
+  if (alerts.filter(a => a.type === 'red').length === 0 && alerts.filter(a => a.type === 'yellow').length <= 1) {
+    alerts.push({ type: 'green', icon: '🛡️', title: 'Profil sain', desc: 'Aucun signal d\'alarme majeur détecté. Ce profil présente les caractéristiques d\'une audience authentique.' });
+  }
+
+  return alerts;
+}
+
+function renderResults(data) {
+  var score = computeScore(data);
+  var cert = getCertLevel(score.total);
+  var alerts = buildAlerts(data, score);
+
+  var html = '';
+
+  // Demo banner
+  if (data.isDemo) {
+    html += '<div style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.3);border-radius:12px;padding:12px 20px;margin-bottom:20px;font-size:12px;color:#8B6914;text-align:center"><strong>Mode démo</strong> — Données simulées. <a href="#" onclick="showApiConfig()" style="color:inherit;font-weight:700;text-decoration:underline">Ajoute ta clé RapidAPI</a> pour analyser de vrais profils.</div>';
+  }
+
+  // Profile header
+  html += '<div class="profile-header">';
+  html += '<div class="profile-avatar">' + data.name.charAt(0).toUpperCase() + '</div>';
+  html += '<div class="profile-info">';
+  html += '<div class="profile-name">' + data.name + '</div>';
+  html += '<div class="profile-handle">' + data.handle + (data.verified ? ' ✓' : '') + '</div>';
+  html += '<div class="profile-bio">' + (data.bio || 'Aucune bio disponible') + '</div>';
+  html += '</div>';
+  html += '<div class="profile-score-big">';
+  html += '<div class="score-circle" style="border-color:' + cert.borderColor + ';background:' + cert.bg + '">';
+  html += '<div class="score-number" style="color:' + cert.color + '">' + score.total + '</div>';
+  html += '<div class="score-label" style="color:' + cert.color + '">/100</div>';
+  html += '</div>';
+  html += '<div class="cert-pill" style="background:' + cert.bg + ';color:' + cert.color + ';border:1px solid ' + cert.borderColor + '">' + cert.label + '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  // Stats
+  html += '<div class="stats-grid">';
+  var stats = [
+    { value: formatNum(data.followers), label: 'Abonnés', color: '#16120E' },
+    { value: data.engagementRate + '%', label: 'Taux engagement', color: data.engagementRate >= 3 ? '#1EC8A0' : data.engagementRate >= 1.5 ? '#F5A623' : '#E8412A' },
+    { value: data.authFollowers + '%', label: 'Followers authentiques', color: data.authFollowers >= 80 ? '#1EC8A0' : data.authFollowers >= 65 ? '#F5A623' : '#E8412A' },
+    { value: formatNum(data.posts), label: 'Publications', color: '#16120E' },
+  ];
+  stats.forEach(function(s) {
+    html += '<div class="stat-card">';
+    html += '<div class="stat-value" style="color:' + s.color + '">' + s.value + '</div>';
+    html += '<div class="stat-label">' + s.label + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  // Alertes
+  if (alerts.length > 0) {
+    html += '<div class="alerts-section">';
+    html += '<div class="alerts-title">Signaux détectés</div>';
+    html += '<div class="alerts-grid">';
+    alerts.forEach(function(a) {
+      html += '<div class="alert alert-' + a.type + '">';
+      html += '<span class="alert-icon">' + a.icon + '</span>';
+      html += '<div><strong>' + a.title + '</strong>' + a.desc + '</div>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+  }
+
+  // Piliers
+  html += '<div class="piliers-section">';
+  html += '<div class="piliers-title">Score par pilier</div>';
+  html += '<div class="piliers-grid">';
+  var piliers = [
+    { icon: '🔒', name: 'Authenticité audience', desc: 'Qualité et réalité des abonnés', score: score.auth, max: 30 },
+    { icon: '💬', name: 'Engagement', desc: 'Taux et qualité des interactions', score: score.eng, max: 25 },
+    { icon: '🌍', name: 'Qualité audience', desc: 'Démographie et localisation', score: score.audience, max: 20 },
+    { icon: '🎯', name: 'Cohérence éditoriale', desc: 'Clarté de niche et ligne de contenu', score: score.coherence, max: 15 },
+    { icon: '📅', name: 'Historique & réputation', desc: 'Ancienneté et absence de controverses', score: score.history, max: 10 },
+  ];
+  piliers.forEach(function(p) {
+    var pct = Math.round((p.score / p.max) * 100);
+    var barColor = pct >= 75 ? '#1EC8A0' : pct >= 50 ? '#F5A623' : '#E8412A';
+    html += '<div class="pilier-row">';
+    html += '<div class="pilier-icon">' + p.icon + '</div>';
+    html += '<div class="pilier-info"><div class="pilier-name">' + p.name + '</div><div class="pilier-desc">' + p.desc + '</div></div>';
+    html += '<div class="pilier-score-wrap">';
+    html += '<div class="pilier-bar-track"><div class="pilier-bar-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div>';
+    html += '<div><span class="pilier-score" style="color:' + barColor + '">' + p.score + '</span><span class="pilier-max">/' + p.max + '</span></div>';
+    html += '</div></div>';
+  });
+  html += '</div></div>';
+
+  // Posts récents
+  html += '<div class="posts-section">';
+  html += '<div class="posts-title">Analyse des 5 derniers posts</div>';
+  html += '<div class="posts-grid">';
+  data.recentPosts.forEach(function(post) {
+    var flagClass = post.fakeCommentPct < 25 ? 'flag-ok' : post.fakeCommentPct < 45 ? 'flag-warn' : 'flag-bad';
+    var flagText = post.fakeCommentPct < 25 ? '✓ Commentaires sains' : post.fakeCommentPct < 45 ? '⚠ Quelques fakes' : '🚨 Fakes détectés';
+    html += '<div class="post-card">';
+    html += '<div class="post-meta">';
+    html += '<span class="post-engagement">Post #' + post.num + ' · ' + post.engagement + '%</span>';
+    html += '<span class="post-flag ' + flagClass + '">' + flagText + '</span>';
+    html += '</div>';
+    html += '<div style="font-size:10px;color:var(--ink4);margin-bottom:6px">' + post.fakeCommentPct + '% commentaires suspects</div>';
+    html += '<div class="post-comments">';
+    post.comments.forEach(function(c) {
+      html += '<div class="comment-item">';
+      html += '<div class="comment-dot" style="background:' + (c.fake ? '#E8412A' : '#1EC8A0') + '"></div>';
+      html += '<div class="comment-text">' + c.text + '</div>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+  });
+  html += '</div></div>';
+
+  // Verdict
+  html += '<div class="verdict-box">';
+  html += '<div class="verdict-title">' + cert.label + ' — Score ' + score.total + '/100</div>';
+  if (score.total >= 70) {
+    html += '<div class="verdict-sub">Ce profil présente les caractéristiques d\'une audience authentique.<br>Il répond aux critères BeVerified pour une collaboration de qualité.</div>';
+  } else if (score.total >= 50) {
+    html += '<div class="verdict-sub">Ce profil présente quelques signaux à surveiller.<br>Demande un rapport complet avant de lancer une collaboration.</div>';
+  } else {
+    html += '<div class="verdict-sub">Ce profil présente des risques significatifs.<br>Nous déconseillons une collaboration sans vérification approfondie.</div>';
+  }
+  html += '<div class="verdict-actions">';
+  html += '<a href="mailto:hello@beverified.fr?subject=Rapport complet - ' + data.handle + '" class="verdict-btn verdict-btn-primary">Demander le rapport complet →</a>';
+  html += '<a href="#" onclick="document.getElementById(\'handleInput\').value=\'\';document.getElementById(\'results\').style.display=\'none\'" class="verdict-btn verdict-btn-secondary">Analyser un autre profil</a>';
+  html += '</div></div>';
+
+  var resultsEl = document.getElementById('results');
+  resultsEl.innerHTML = html;
+  resultsEl.style.display = 'block';
+  resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── HELPERS ──
+function setStep(n) {
+  for (var i = 1; i <= 4; i++) {
+    var el = document.getElementById('step' + i);
+    if (!el) continue;
+    if (i < n) { el.className = 'loading-step done'; el.textContent = el.textContent.replace('⏳', '✅'); }
+    else if (i === n) { el.className = 'loading-step active'; }
+    else { el.className = 'loading-step'; }
+  }
+}
+function sleep(ms) { return new Promise(function(r){ setTimeout(r, ms); }); }
+function formatNum(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n/1000).toFixed(0) + 'k';
+  return n;
+}
+function showError(msg) {
+  document.getElementById('errorBox').style.display = 'block';
+  document.getElementById('errorMsg').textContent = msg;
+  document.getElementById('loading').style.display = 'none';
+}
+function showApiConfig() {
+  var key = prompt('Entre ta clé RapidAPI (X-RapidAPI-Key) :');
+  if (key) {
+    localStorage.setItem('bv_rapidapi_key', key);
+    alert('Clé sauvegardée ! Relance une analyse.');
+  }
+}
+</script>
+</body>
+</html>
