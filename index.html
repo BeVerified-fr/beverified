@@ -360,7 +360,7 @@ btn.addEventListener('click', function() {
   btn.textContent = '...';
   btn.disabled = true;
   note.innerHTML = '⏳ Inscription en cours...';
-  note.style.color = 'rgba(255,255,255,0.5)';
+  note.style.color = 'rgba(255,255,255 ,0.5)';
   fetch('/api/subscribe', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
