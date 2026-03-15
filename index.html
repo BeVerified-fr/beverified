@@ -337,7 +337,7 @@ footer{background:var(--ink);padding:40px 48px;border-top:1px solid rgba(255,255
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 var btn = document.getElementById('wBtn');
 var inp = document.getElementById('wEmail');
 var note = document.getElementById('wNote');
@@ -365,3 +365,13 @@ btn.addEventListener('click', function() {
     note.innerHTML = '✅ Demande reçue ! Vous recevrez vos accès sous 24h.';
     note.style.color = '#1EC8A0';
     inp.
+    inp.value = '';
+  })
+  .finally(function() {
+    btn.textContent = 'Rejoindre →';
+    btn.disabled = false;
+  });
+});
+</script>
+</body>
+</html>
