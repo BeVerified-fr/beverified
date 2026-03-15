@@ -3,151 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BeVerified — Influenceurs certifiés, audiences réelles</title>
+<title>BeVerified — Trouvez les vrais influenceurs</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#F2EEE8;--bg2:#EBE6DE;--ink:#16120E;--ink2:#3D3830;--ink3:#7A6F65;--ink4:#A89F96;--a1:#E8412A;--a2:#F5A623;--a4:#1EC8A0;--grad:linear-gradient(135deg,#E8412A,#F5A623);--radius:16px;--shadow:0 2px 16px rgba(22,18,14,0.08);--shadow-lg:0 8px 40px rgba(22,18,14,0.12)}
+:root{--bg:#F2EEE8;--bg2:#EBE6DE;--ink:#16120E;--ink3:#7A6F65;--ink4:#A89F96;--a1:#E8412A;--a2:#F5A623;--a4:#1EC8A0;--grad:linear-gradient(135deg,#E8412A,#F5A623);--radius:16px;--shadow:0 2px 16px rgba(22,18,14,0.08);--shadow-lg:0 8px 40px rgba(22,18,14,0.12)}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:'Playfair Display',serif;line-height:1.6;overflow-x:hidden}
 nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 48px;height:68px;display:flex;align-items:center;justify-content:space-between;background:rgba(242,238,232,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(22,18,14,0.06)}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:20px;font-weight:900;color:var(--ink)}
-.nav-logo span{color:var(--a1)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
 .nav-badge{background:var(--grad);color:white;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:100px}
 .nav-links{display:flex;align-items:center;gap:32px;list-style:none}
 .nav-links a{text-decoration:none;color:var(--ink3);font-size:14px;transition:color .2s}
 .nav-links a:hover{color:var(--ink)}
-.nav-cta{background:var(--ink)!important;color:white!important;padding:8px 20px;border-radius:100px}
-.hero{min-height:100vh;padding:120px 48px 80px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1200px;margin:0 auto}
-.hero-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
-.pill{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:100px;font-size:12px;font-weight:600;border:1.5px solid}
-.pill-ig{color:#E1306C;border-color:#E1306C;background:rgba(225,48,108,.06)}
-.pill-tt{color:#010101;border-color:#010101;background:rgba(1,1,1,.04)}
-.pill-yt{color:#FF0000;border-color:#FF0000;background:rgba(255,0,0,.06)}
-.pill-li{color:#0A66C2;border-color:#0A66C2;background:rgba(10,102,194,.06)}
-.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
-h1{font-size:clamp(40px,4.8vw,62px);font-weight:700;line-height:1.08;letter-spacing:0.01em;margin-bottom:20px}
+.nav-cta{background:var(--ink)!important;color:white!important;padding:8px 20px;border-radius:100px;font-weight:700}
+.hero{min-height:100vh;padding:140px 48px 80px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1200px;margin:0 auto}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(232,65,42,0.08);color:var(--a1);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:20px;border:1px solid rgba(232,65,42,0.15)}
+h1{font-size:clamp(38px,4.5vw,58px);font-weight:900;line-height:1.06;letter-spacing:.01em;margin-bottom:20px}
 h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:17px;color:var(--ink3);line-height:1.7;max-width:480px;margin-bottom:36px}
-.btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
-.btn-p{background:var(--ink);color:white;border:none;padding:14px 32px;border-radius:100px;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
-.btn-p:hover{background:var(--a1);transform:translateY(-2px)}
-.btn-s{color:var(--ink);border:1.5px solid rgba(22,18,14,0.2);padding:14px 32px;border-radius:100px;font-family:'Playfair Display',serif;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.hero-sub{font-size:17px;color:var(--ink3);line-height:1.8;max-width:480px;margin-bottom:36px}
+.hero-sub strong{color:var(--ink);font-weight:700}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px}
+.btn-p{background:var(--ink);color:white;border:none;padding:16px 36px;border-radius:100px;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-p:hover{background:var(--a1);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,65,42,0.25)}
+.btn-s{color:var(--ink);border:1.5px solid rgba(22,18,14,0.2);padding:16px 36px;border-radius:100px;font-family:'Playfair Display',serif;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
 .btn-s:hover{border-color:var(--ink);transform:translateY(-2px)}
-.trust{display:flex;align-items:center;gap:12px}
-.avatars{display:flex}
-.av{width:32px;height:32px;border-radius:50%;border:2px solid var(--bg);margin-left:-8px;display:flex;align-items:center;justify-content:center;font-size:14px;background:var(--bg2)}
-.trust-t{font-size:13px;color:var(--ink3)}
-.card{background:white;border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden;border:1px solid rgba(22,18,14,0.06)}
-.card-h{padding:16px 20px;border-bottom:1px solid rgba(22,18,14,0.06);display:flex;align-items:center;justify-content:space-between}
-.card-t{font-size:14px;font-weight:700}
-.live{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--a4)}
-.live-d{width:6px;height:6px;background:var(--a4);border-radius:50%;animation:p 1.5s ease-in-out infinite}
-@keyframes p{0%,100%{opacity:1}50%{opacity:.4}}
-.filters{display:flex;gap:6px;padding:12px 20px;border-bottom:1px solid rgba(22,18,14,0.06);overflow-x:auto}
-.chip{padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;border:1.5px solid rgba(22,18,14,0.1);background:transparent;cursor:pointer;white-space:nowrap;font-family:'Playfair Display',serif}
-.chip.on{background:var(--ink);color:white;border-color:var(--ink)}
-.row{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid rgba(22,18,14,0.04)}
-.rn{font-size:12px;font-weight:700;color:var(--ink4);width:16px}
-.rav{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;flex-shrink:0}
-.rv{position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;background:var(--a4);border-radius:50%;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:8px;color:white}
-.ri{flex:1}
-.rname{font-size:13px;font-weight:700;line-height:1.2}
-.rh{font-size:11px;color:var(--ink4)}
-.rpl{font-size:9px;font-weight:700;letter-spacing:.05em;padding:2px 6px;border-radius:4px}
-.rscore{font-size:18px;font-weight:700;color:var(--ink);text-align:right}
-.rstat{font-size:10px;text-align:right}
-.cf{padding:14px 20px;text-align:center}
-.cf a{font-size:13px;color:var(--a1);font-weight:700;text-decoration:none}
-.stats{background:var(--ink);padding:32px 48px;display:flex;justify-content:center}
-.sg{display:grid;grid-template-columns:repeat(4,1fr);max-width:900px;width:100%}
-.si{text-align:center;padding:16px 24px;border-right:1px solid rgba(255,255,255,0.08)}
-.si:last-child{border-right:none}
-.sn{font-size:40px;font-weight:900;color:white;letter-spacing:0em;line-height:1}
-.sn span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sl{font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.4}
-section{padding:100px 48px}
-.sec{max-width:1200px;margin:0 auto}
-.tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--a1);margin-bottom:12px}
-.tag::before{content:'';width:20px;height:2px;background:var(--a1);border-radius:1px}
-h2{font-size:clamp(32px,4vw,48px);font-weight:700;line-height:1.05;letter-spacing:0em;margin-bottom:12px}
-h2 em{font-style:normal;color:var(--a1)}
-.sub{font-size:16px;color:var(--ink3);max-width:520px;line-height:1.7}
-.full{background:white;border-radius:var(--radius);border:1px solid rgba(22,18,14,0.08);overflow:hidden;margin-top:48px;box-shadow:var(--shadow)}
-.toolbar{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid rgba(22,18,14,0.06);flex-wrap:wrap;gap:12px}
-.tchips{display:flex;gap:6px;flex-wrap:wrap}
-.tchip{padding:6px 14px;border-radius:100px;font-size:12px;font-weight:700;border:1.5px solid rgba(22,18,14,0.1);background:transparent;cursor:pointer;font-family:'Playfair Display',serif;transition:all .2s}
-.tchip.on,.tchip:hover{background:var(--ink);color:white;border-color:var(--ink)}
-table{width:100%;border-collapse:collapse}
-th{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);padding:10px 20px;text-align:left;border-bottom:1px solid rgba(22,18,14,0.06)}
-tr.tr{border-bottom:1px solid rgba(22,18,14,0.04);cursor:pointer;transition:background .15s}
-tr.tr:hover{background:rgba(22,18,14,0.02)}
-td{padding:14px 20px;font-size:14px;vertical-align:middle}
-.tav{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative}
-.tv{position:absolute;bottom:-1px;right:-1px;width:17px;height:17px;background:var(--a4);border-radius:50%;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:8px;color:white}
-.sbar{width:48px;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden}
-.sfill{height:100%;border-radius:3px;background:var(--grad)}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.04em}
-.bor{background:rgba(245,166,35,.12);color:#B8860B}
-.bar{background:rgba(22,18,14,.06);color:var(--ink3)}
-.bbr{background:rgba(205,127,50,.1);color:#8B6914}
-.how-s{background:var(--ink);padding:100px 48px}
-.how-s .tag{color:var(--a2)}
-.how-s .tag::before{background:var(--a2)}
-.how-s h2{color:white}
-.how-s .sub{color:rgba(255,255,255,0.5)}
-.hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;max-width:1200px;margin-left:auto;margin-right:auto}
-.hcard{background:#1A1714;padding:40px 32px;position:relative;overflow:hidden}
-.hnum{font-size:72px;font-weight:700;color:rgba(255,255,255,0.04);position:absolute;top:16px;right:20px}
-.hicon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px}
-.htitle{font-size:18px;font-weight:700;color:white;margin-bottom:12px}
-.hdesc{font-size:14px;color:rgba(255,255,255,0.45);line-height:1.7}
-.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:48px}
-.plabel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.pdot{width:8px;height:8px;border-radius:50%}
-.pcard{background:white;border:1.5px solid rgba(22,18,14,0.08);border-radius:var(--radius);padding:32px;position:relative;transition:all .2s}
-.pcard+.pcard{margin-top:16px}
-.pcard:hover{border-color:rgba(22,18,14,0.2);transform:translateY(-2px);box-shadow:var(--shadow)}
-.fpill{position:absolute;top:-11px;left:20px;background:var(--a1);color:white;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px}
-.pname{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
-.pamount{font-size:40px;font-weight:700;color:var(--ink);line-height:1;margin-bottom:4px}
-.pamount span{font-size:16px;font-weight:400;color:var(--ink4)}
-.pdesc{font-size:13px;color:var(--ink4);margin-bottom:24px}
-.pfeat{list-style:none;display:flex;flex-direction:column;gap:10px}
-.pfeat li{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--ink3)}
-.pfeat li::before{content:'✓';color:var(--a4);font-weight:700;flex-shrink:0}
-.cta-s{padding:100px 48px;max-width:1200px;margin:0 auto;text-align:center}
-.cta-box{background:var(--ink);border-radius:24px;padding:72px 48px;position:relative;overflow:hidden}
+.proof-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.proof-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink3)}
+.proof-dot{width:6px;height:6px;border-radius:50%;background:var(--a4)}
+.mockup{background:white;border-radius:20px;box-shadow:var(--shadow-lg);overflow:hidden;border:1px solid rgba(22,18,14,0.06)}
+.mockup-header{background:var(--ink);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.mockup-title{color:white;font-size:13px;font-weight:700}
+.mockup-live{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--a4);font-weight:700}
+.mdot{width:6px;height:6px;background:var(--a4);border-radius:50%;animation:p 1.5s ease-in-out infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+.mockup-filters{display:flex;gap:6px;padding:12px 16px;border-bottom:1px solid rgba(22,18,14,0.06)}
+.mchip{padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;border:1.5px solid rgba(22,18,14,0.1);font-family:'Playfair Display',serif}
+.mchip.on{background:var(--ink);color:white;border-color:var(--ink)}
+.mrow{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid rgba(22,18,14,0.04)}
+.mnum{font-size:11px;font-weight:700;color:var(--ink4);width:14px}
+.mav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;position:relative}
+.mvc{position:absolute;bottom:-2px;right:-2px;width:14px;height:14px;background:var(--a4);border-radius:50%;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:7px;color:white}
+.minfo{flex:1}
+.mname{font-size:12px;font-weight:700;line-height:1.2}
+.mhandle{font-size:10px;color:var(--ink4)}
+.mscore{font-size:16px;font-weight:900;color:var(--ink);text-align:right}
+.meng{font-size:9px;text-align:right}
+.mcta{padding:12px 16px;text-align:center}
+.mcta a{font-size:12px;color:var(--a1);font-weight:700;text-decoration:none}
+.problem{background:var(--ink);padding:80px 48px}
+.problem-inner{max-width:1200px;margin:0 auto;text-align:center}
+.problem h2{font-size:clamp(28px,3.5vw,44px);font-weight:900;color:white;line-height:1.1;margin-bottom:16px}
+.problem h2 em{font-style:normal;color:var(--a2)}
+.problem-sub{font-size:16px;color:rgba(255,255,255,0.5);max-width:560px;margin:0 auto 56px;line-height:1.7}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.pcard{background:#1A1714;padding:36px 28px}
+.pstat{font-size:36px;font-weight:900;margin-bottom:8px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ptitle{font-size:16px;font-weight:700;color:white;margin-bottom:10px}
+.pdesc{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.7}
+.solution{padding:100px 48px;max-width:1200px;margin:0 auto}
+.stag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--a1);margin-bottom:12px}
+.stag::before{content:'';width:16px;height:2px;background:var(--a1);border-radius:1px}
+.stitle{font-size:clamp(28px,3.5vw,44px);font-weight:900;line-height:1.1;margin-bottom:12px}
+.stitle em{font-style:normal;color:var(--a1)}
+.ssub{font-size:16px;color:var(--ink3);max-width:520px;line-height:1.7;margin-bottom:56px}
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.fcard{background:white;border-radius:var(--radius);padding:32px;border:1.5px solid rgba(22,18,14,0.06);transition:all .2s}
+.fcard:hover{border-color:rgba(232,65,42,0.2);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.ficon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px}
+.ftitle{font-size:17px;font-weight:700;margin-bottom:8px}
+.fdesc{font-size:13px;color:var(--ink3);line-height:1.7}
+.ftag{display:inline-block;margin-top:14px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--a4);background:rgba(30,200,160,0.08);padding:4px 10px;border-radius:100px}
+.stats-band{background:var(--bg2);padding:60px 48px}
+.srow{display:grid;grid-template-columns:repeat(4,1fr);background:white;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);max-width:1200px;margin:0 auto}
+.scell{padding:32px 24px;text-align:center;border-right:1px solid rgba(22,18,14,0.06)}
+.scell:last-child{border:none}
+.sn{font-size:40px;font-weight:900;line-height:1;margin-bottom:6px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sl{font-size:12px;color:var(--ink4);line-height:1.4}
+.how{padding:100px 48px;max-width:1200px;margin:0 auto}
+.hsteps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:56px}
+.hstep{text-align:center}
+.hnum{width:56px;height:56px;border-radius:50%;background:var(--ink);color:white;font-size:20px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.htitle{font-size:16px;font-weight:700;margin-bottom:8px}
+.hdesc{font-size:13px;color:var(--ink3);line-height:1.7}
+.pricing-s{background:var(--ink);padding:100px 48px}
+.pricing-inner{max-width:900px;margin:0 auto;text-align:center}
+.pricing-s h2{font-size:clamp(28px,3.5vw,44px);font-weight:900;color:white;line-height:1.1;margin-bottom:12px}
+.pricing-s h2 em{font-style:normal;color:var(--a2)}
+.psub{font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:56px}
+.pcards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;text-align:left}
+.pc{background:#1A1714;border-radius:var(--radius);padding:36px;border:1.5px solid rgba(255,255,255,0.06);position:relative;transition:all .2s}
+.pc:hover{border-color:rgba(232,65,42,0.3);transform:translateY(-3px)}
+.pc.feat{border-color:rgba(232,65,42,0.4);background:#1F1510}
+.fpill{position:absolute;top:-12px;left:24px;background:var(--a1);color:white;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:100px}
+.pn{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:10px}
+.pa{font-size:44px;font-weight:900;color:white;line-height:1;margin-bottom:4px}
+.pa span{font-size:18px;font-weight:400;color:rgba(255,255,255,0.4)}
+.pd{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:28px}
+.pf{list-style:none;display:flex;flex-direction:column;gap:12px}
+.pf li{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(255,255,255,0.65)}
+.pf li::before{content:'✓';color:var(--a4);font-weight:700;flex-shrink:0}
+.cta-s{padding:100px 48px;max-width:900px;margin:0 auto;text-align:center}
+.cbox{background:var(--ink);border-radius:24px;padding:72px 48px;position:relative;overflow:hidden}
 .cglow{position:absolute;width:600px;height:300px;background:radial-gradient(ellipse,rgba(232,65,42,0.2),transparent 70%);top:-100px;left:50%;transform:translateX(-50%);pointer-events:none}
-.ctitle{font-size:clamp(38px,5vw,56px);font-weight:700;color:white;line-height:1.1;letter-spacing:0.01em;margin-bottom:16px;position:relative;z-index:1}
+.ctitle{font-size:clamp(32px,4vw,48px);font-weight:900;color:white;line-height:1.1;margin-bottom:12px;position:relative;z-index:1}
 .ctitle em{font-style:normal;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.csub{font-size:17px;color:rgba(255,255,255,0.5);max-width:500px;margin:0 auto 40px;line-height:1.7;position:relative;z-index:1}
-.wform{display:flex;gap:10px;max-width:440px;margin:0 auto;position:relative;z-index:10}
+.csub{font-size:16px;color:rgba(255,255,255,0.5);max-width:480px;margin:0 auto 36px;line-height:1.7;position:relative;z-index:1}
+.wform{display:flex;gap:10px;max-width:440px;margin:0 auto;position:relative;z-index:2}
 .winput{flex:1;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.12);border-radius:100px;padding:14px 22px;color:white;font-family:'Playfair Display',serif;font-size:14px;outline:none;transition:border-color .2s}
 .winput::placeholder{color:rgba(255,255,255,0.3)}
 .winput:focus{border-color:rgba(232,65,42,0.5)}
-.wbtn{background:var(--a1);color:white;border:none;padding:14px 28px;border-radius:100px;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;position:relative;z-index:10}
+.wbtn{background:var(--a1);color:white;border:none;padding:14px 28px;border-radius:100px;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
 .wbtn:hover{background:#D13520;transform:translateY(-1px)}
-.wnote{font-size:13px;color:rgba(255,255,255,0.3);margin-top:16px;position:relative;z-index:1}
+.wnote{font-size:12px;color:rgba(255,255,255,0.3);margin-top:14px;position:relative;z-index:1}
 .wnote span{color:var(--a2)}
-footer{background:var(--ink);padding:48px;border-top:1px solid rgba(255,255,255,0.06)}
-.foot{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px}
+footer{background:var(--ink);padding:40px 48px;border-top:1px solid rgba(255,255,255,0.06)}
+.foot{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
 .flinks{display:flex;gap:24px;list-style:none}
-.flinks a{color:rgba(255,255,255,0.3);text-decoration:none;font-size:13px;transition:color .2s}
-.flinks a:hover{color:rgba(255,255,255,0.6)}
+.flinks a{color:rgba(255,255,255,0.3);text-decoration:none;font-size:13px}
 .fcopy{font-size:12px;color:rgba(255,255,255,0.2)}
 @media(max-width:768px){
   nav{padding:0 20px}
   .nav-links{display:none}
   .hero{grid-template-columns:1fr;padding:100px 20px 60px;gap:40px}
-  .stats{padding:24px 20px}
-  .sg{grid-template-columns:repeat(2,1fr)}
-  section{padding:60px 20px}
-  .how-s{padding:60px 20px}
-  .hgrid{grid-template-columns:1fr}
+  .problem{padding:60px 20px}
   .pgrid{grid-template-columns:1fr}
+  .solution{padding:60px 20px}
+  .fgrid{grid-template-columns:1fr}
+  .stats-band{padding:40px 20px}
+  .srow{grid-template-columns:repeat(2,1fr)}
+  .how{padding:60px 20px}
+  .hsteps{grid-template-columns:1fr;gap:32px}
+  .pricing-s{padding:60px 20px}
+  .pcards{grid-template-columns:1fr}
   .cta-s{padding:60px 20px}
-  .cta-box{padding:48px 24px}
+  .cbox{padding:48px 24px}
   .wform{flex-direction:column}
   footer{padding:32px 20px}
 }
@@ -159,8 +149,8 @@ footer{background:var(--ink);padding:48px;border-top:1px solid rgba(255,255,255,
   <a href="#" class="nav-logo">
     <svg width="160" height="32" viewBox="0 0 178 36" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <clipPath id="bvnav1"><circle cx="18" cy="18" r="15"/></clipPath>
-        <linearGradient id="bvnav2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <clipPath id="bvn1"><circle cx="18" cy="18" r="15"/></clipPath>
+        <linearGradient id="bvn2" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#F5A623" stop-opacity="0"/>
           <stop offset="30%" stop-color="#FF8C00" stop-opacity="1"/>
           <stop offset="50%" stop-color="#E8412A" stop-opacity="1"/>
@@ -175,13 +165,13 @@ footer{background:var(--ink);padding:48px;border-top:1px solid rgba(255,255,255,
       <line x1="18" y1="33" x2="18" y2="35" stroke="#F5A623" stroke-width="1" stroke-linecap="square"/>
       <line x1="1" y1="18" x2="3" y2="18" stroke="#F5A623" stroke-width="1" stroke-linecap="square"/>
       <line x1="33" y1="18" x2="35" y2="18" stroke="#F5A623" stroke-width="1" stroke-linecap="square"/>
-      <g clip-path="url(#bvnav1)" opacity="0.11">
+      <g clip-path="url(#bvn1)" opacity="0.11">
         <path d="M17.2,18.8 Q16.8,17.8 17,16.5 Q17.5,15 18,14.8 Q18.5,15 19,16.5 Q19.2,17.8 18.8,18.8 Q18.4,20.2 18,20.5 Q17.6,20.2 17.2,18.8Z" fill="none" stroke="#16120E" stroke-width="1.2" stroke-dasharray="1,1"/>
         <path d="M15.8,19.5 Q15,17.8 15.3,15.2 Q15.8,12 18,11.2 Q20.2,12 20.7,15.2 Q21,17.8 20.2,19.5 Q19.2,22 18,22.5 Q16.8,22 15.8,19.5Z" fill="none" stroke="#16120E" stroke-width="1.2" stroke-dasharray="1.5,1"/>
         <path d="M14.2,20 Q13,17.5 13.5,13.8 Q14.2,9.5 18,8.5 Q21.8,9.5 22.5,13.8 Q23,17.5 21.8,20 Q20.5,23.5 18,24.5 Q15.5,23.5 14.2,20Z" fill="none" stroke="#16120E" stroke-width="1.2" stroke-dasharray="2,1"/>
         <path d="M12.4,20.5 Q10.8,17.2 11.5,12.8 Q12.5,7.5 18,6.2 Q23.5,7.5 24.5,12.8 Q25.2,17.2 23.6,20.5 Q21.8,25 18,26.2 Q14.2,25 12.4,20.5Z" fill="none" stroke="#16120E" stroke-width="1.1" stroke-dasharray="2.5,1.2"/>
       </g>
-      <rect x="7" y="24.1" width="22" height="0.8" rx="0.4" fill="url(#bvnav2)" opacity="1"/>
+      <rect x="7" y="24.1" width="22" height="0.8" rx="0.4" fill="url(#bvn2)" opacity="1"/>
       <polyline points="9,18 14.5,24 25,11" fill="none" stroke="#16120E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
       <polyline points="9,18 14.5,23.5 25,10.8" fill="none" stroke="#E8412A" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
       <circle cx="25" cy="10.8" r="1.2" fill="#F5A623"/>
@@ -195,199 +185,162 @@ footer{background:var(--ink);padding:48px;border-top:1px solid rgba(255,255,255,
     <span class="nav-badge">Beta</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#classement">Classement</a></li>
+    <li><a href="#solution">Fonctionnalités</a></li>
     <li><a href="#comment">Comment ça marche</a></li>
     <li><a href="#tarifs">Tarifs</a></li>
-    <li><a href="/analyzer" style="color:var(--a4);font-weight:700">🔍 Analyser</a></li>
-    <li><a href="#waitlist" class="nav-cta">Rejoindre →</a></li>
+    <li><a href="#contact" class="nav-cta">Accès marque →</a></li>
   </ul>
 </nav>
 
 <div class="hero">
   <div>
-    <div class="hero-pills">
-      <span class="pill pill-ig"><span class="dot"></span>Instagram</span>
-      <span class="pill pill-tt"><span class="dot"></span>TikTok</span>
-      <span class="pill pill-yt"><span class="dot"></span>YouTube</span>
-      <span class="pill pill-li"><span class="dot"></span>LinkedIn</span>
-    </div>
-    <h1>Les influenceurs vérifiés, notés sur <em>audience, engagement et impact </em></h1>
-    <p class="hero-sub">BeVerified analyse chaque influenceur sur 15 critères. Les marques trouvent les bons créateurs. Les créateurs prouvent leur valeur réelle.</p>
+    <div class="hero-tag">📊 Plateforme certifiée pour marques et agences</div>
+    <h1>L'intelligence data au service<br>de vos <em>campagnes influence</em></h1>
+    <p class="hero-sub">BeVerified certifie l'authenticité des audiences Instagram. <strong>Classement hebdomadaire</strong> des meilleurs profils France par niche : Sport, Food, Lifestyle et Beauté. Analyse de n'importe quel compte en 30 secondes.</p>
     <div class="btns">
-      <a href="/analyzer" class="btn-p">Analyser un profil →</a>
-      <a href="#waitlist" class="btn-s">Vérifier mon profil</a>
+      <a href="#contact" class="btn-p">Demander l'accès →</a>
+      <a href="#solution" class="btn-s">Voir comment ça marche</a>
     </div>
-    <div class="trust">
-      <div class="avatars">
-        <div class="av" style="background:#FFE8E5">🎨</div>
-        <div class="av" style="background:#E8F5E9">🎵</div>
-        <div class="av" style="background:#E3F2FD">🍕</div>
-        <div class="av" style="background:#FFF3E0">✈️</div>
-      </div>
-      <span class="trust-t">+240 créateurs en attente de certification</span>
+    <div class="proof-row">
+      <div class="proof-item"><span class="proof-dot"></span>Données Instagram en temps réel</div>
+      <div class="proof-item"><span class="proof-dot"></span>Score d'authenticité certifié</div>
+      <div class="proof-item"><span class="proof-dot"></span>Sport · Food · Lifestyle · Beauté</div>
     </div>
   </div>
   <div>
-    <div class="card">
-      <div class="card-h">
-        <span class="card-t">🏆 Top Lifestyle France</span>
-        <span class="live"><span class="live-d"></span>Live</span>
+    <div class="mockup">
+      <div class="mockup-header">
+        <span class="mockup-title">🏆 Top Sport France</span>
+        <span class="mockup-live"><span class="mdot"></span>Live</span>
       </div>
-      <div class="filters">
-        <button class="chip on">Tous</button>
-        <button class="chip">Instagram</button>
-        <button class="chip">TikTok</button>
-        <button class="chip">YouTube</button>
-        <button class="chip">Micro</button>
+      <div class="mockup-filters">
+        <span class="mchip on">Sport</span>
+        <span class="mchip">Food</span>
+        <span class="mchip">Lifestyle</span>
+        <span class="mchip">Beauté</span>
       </div>
-      <div class="row"><span class="rn">1</span><div class="rav" style="background:#FFE8E5">🎨<div class="rv">✓</div></div><div class="ri"><div class="rname">Léa Marchand <span class="rpl" style="background:#FFE8E5;color:#E1306C">IG</span></div><div class="rh">@leamarchand · Lifestyle</div></div><div><div class="rscore">94</div><div class="rstat" style="color:#1EC8A0">127k · 4.2%</div></div></div>
-      <div class="row"><span class="rn">2</span><div class="rav" style="background:#E8E8E8">🎵<div class="rv">✓</div></div><div class="ri"><div class="rname">Tom Vasquez <span class="rpl" style="background:#F0F0F0;color:#333">TT</span></div><div class="rh">@tomvzq · Musique</div></div><div><div class="rscore">91</div><div class="rstat" style="color:#1EC8A0">340k · 6.8%</div></div></div>
-      <div class="row"><span class="rn">3</span><div class="rav" style="background:#E8F5E9">🍕<div class="rv">✓</div></div><div class="ri"><div class="rname">Clara B. <span class="rpl" style="background:#FFEEEE;color:#FF0000">YT</span></div><div class="rh">@clarabeats · Food</div></div><div><div class="rscore">88</div><div class="rstat" style="color:var(--ink4)">89k · 3.1%</div></div></div>
-      <div class="row"><span class="rn">4</span><div class="rav" style="background:#E3F2FD">🏃<div class="rv">✓</div></div><div class="ri"><div class="rname">Marc Lebrun <span class="rpl" style="background:#FFE8E5;color:#E1306C">IG</span></div><div class="rh">@marclt · Sport</div></div><div><div class="rscore">85</div><div class="rstat" style="color:var(--ink4)">210k · 2.8%</div></div></div>
-      <div class="row"><span class="rn">5</span><div class="rav" style="background:#FFF3E0">✈️<div class="rv">✓</div></div><div class="ri"><div class="rname">Sophie V. <span class="rpl" style="background:#F0F0F0;color:#333">TT</span></div><div class="rh">@sophievoyage · Voyage</div></div><div><div class="rscore">83</div><div class="rstat" style="color:var(--ink4)">156k · 5.1%</div></div></div>
-      <div class="cf"><a href="#classement">Voir le classement complet →</a></div>
+      <div class="mrow"><span class="mnum">1</span><div class="mav" style="background:#E3F2FD">🏃<div class="mvc">✓</div></div><div class="minfo"><div class="mname">Thomas Laurent</div><div class="mhandle">@thomaslft · Fitness</div></div><div><div class="mscore">96</div><div class="meng" style="color:#1EC8A0">312k · 5.8%</div></div></div>
+      <div class="mrow"><span class="mnum">2</span><div class="mav" style="background:#E8F5E9">⚽<div class="mvc">✓</div></div><div class="minfo"><div class="mname">Camille Roux</div><div class="mhandle">@camille.sport · Running</div></div><div><div class="mscore">92</div><div class="meng" style="color:#1EC8A0">187k · 4.2%</div></div></div>
+      <div class="mrow"><span class="mnum">3</span><div class="mav" style="background:#FFF3E0">🏊<div class="mvc">✓</div></div><div class="minfo"><div class="mname">Alex Moreau</div><div class="mhandle">@alexswim · Natation</div></div><div><div class="mscore">88</div><div class="meng" style="color:#A89F96">94k · 3.1%</div></div></div>
+      <div class="mrow"><span class="mnum">4</span><div class="mav" style="background:#FCE4EC">🧘<div class="mvc">✓</div></div><div class="minfo"><div class="mname">Sophie D.</div><div class="mhandle">@sophiedanse · Yoga</div></div><div><div class="mscore">84</div><div class="meng" style="color:#A89F96">156k · 2.9%</div></div></div>
+      <div class="mcta"><a href="#contact">Accéder au classement complet →</a></div>
     </div>
   </div>
 </div>
 
-<div class="stats">
-  <div class="sg">
-    <div class="si"><div class="sn"><span>67%</span></div><div class="sl">des campagnes sous-performent à cause de fausses audiences</div></div>
-    <div class="si"><div class="sn"><span>1.4Md€</span></div><div class="sl">gaspillés chaque année en France sur l'influence non vérifiée</div></div>
-    <div class="si"><div class="sn"><span>3×</span></div><div class="sl">meilleur ROI avec un créateur certifié BeVerified</div></div>
-    <div class="si"><div class="sn"><span>48h</span></div><div class="sl">pour certifier un profil et rejoindre le classement</div></div>
+<div class="problem">
+  <div class="problem-inner">
+    <h2>L'influence,<br><em>plus transparente</em></h2>
+    <p class="problem-sub">Sans données fiables, choisir le bon influenceur relève de l'intuition. BeVerified apporte la rigueur analytique que vos campagnes méritent.</p>
+    <div class="pgrid">
+      <div class="pcard"><div class="pstat">67%</div><div class="ptitle">Des campagnes ratées</div><div class="pdesc">Des collaborations sous-performent à cause de fausses audiences non détectées avant la campagne.</div></div>
+      <div class="pcard"><div class="pstat">1.4Md€</div><div class="ptitle">Gaspillés chaque année</div><div class="pdesc">En France uniquement, sur des placements auprès d'influenceurs dont l'audience n'est pas vérifiée.</div></div>
+      <div class="pcard"><div class="pstat">3×</div><div class="ptitle">Meilleur ROI garanti</div><div class="pdesc">Une campagne avec un influenceur certifié BeVerified génère en moyenne 3× plus de retour sur investissement.</div></div>
+    </div>
   </div>
 </div>
 
-<section id="classement">
-  <div class="sec">
-    <div class="tag">Classement live</div>
-    <h2>Les influenceurs <em>vérifiés</em><br>par catégorie</h2>
-    <p class="sub">Chaque profil analysé sur 15 critères. Score mis à jour chaque mois.</p>
-    <div class="full">
-      <div class="toolbar">
-        <div class="tchips">
-          <button class="tchip on" data-n="tous">Tous</button>
-          <button class="tchip" data-n="lifestyle">Lifestyle</button>
-          <button class="tchip" data-n="food">Food</button>
-          <button class="tchip" data-n="sport">Sport</button>
-          <button class="tchip" data-n="tech">Tech</button>
-          <button class="tchip" data-n="voyage">Voyage</button>
-          <button class="tchip" data-n="mode">Mode</button>
-        </div>
-        <span style="font-size:12px;color:var(--ink4)">24 créateurs certifiés</span>
-      </div>
-      <table>
-        <thead><tr><th>#</th><th>Créateur</th><th>Plateforme</th><th>Abonnés</th><th>Engagement</th><th>Score</th><th>Certification</th></tr></thead>
-        <tbody id="tbody">
-          <tr class="tr" data-n="lifestyle"><td style="font-weight:700;color:var(--ink4)">1</td><td><div style="display:flex;align-items:center;gap:12px"><div class="tav" style="background:#FFE8E5">🎨<div class="tv">✓</div></div><div><div style="font-weight:700">Léa Marchand</div><div style="font-size:12px;color:var(--ink4)">@leamarchand</div></div></div></td><td><span class="rpl" style="background:#FFE8E5;color:#E1306C">IG</span></td><td style="font-size:13px">127k</td><td style="font-size:13px;color:#1EC8A0">4.2%</td><td><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px;font-weight:700">94</span><div class="sbar"><div class="sfill" style="width:94%"></div></div></div></td><td><span class="badge bor">⭐ Or</span></td></tr>
-          <tr class="tr" data-n="musique"><td style="font-weight:700;color:var(--ink4)">2</td><td><div style="display:flex;align-items:center;gap:12px"><div class="tav" style="background:#E8E8E8">🎵<div class="tv">✓</div></div><div><div style="font-weight:700">Tom Vasquez</div><div style="font-size:12px;color:var(--ink4)">@tomvzq</div></div></div></td><td><span class="rpl" style="background:#F0F0F0;color:#333">TT</span></td><td style="font-size:13px">340k</td><td style="font-size:13px;color:#1EC8A0">6.8%</td><td><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px;font-weight:700">91</span><div class="sbar"><div class="sfill" style="width:91%"></div></div></div></td><td><span class="badge bor">⭐ Or</span></td></tr>
-          <tr class="tr" data-n="food"><td style="font-weight:700;color:var(--ink4)">3</td><td><div style="display:flex;align-items:center;gap:12px"><div class="tav" style="background:#E8F5E9">🍕<div class="tv">✓</div></div><div><div style="font-weight:700">Clara B.</div><div style="font-size:12px;color:var(--ink4)">@clarabeats</div></div></div></td><td><span class="rpl" style="background:#FFEEEE;color:#FF0000">YT</span></td><td style="font-size:13px">89k</td><td style="font-size:13px;color:var(--ink4)">3.1%</td><td><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px;font-weight:700">88</span><div class="sbar"><div class="sfill" style="width:88%"></div></div></div></td><td><span class="badge bar">🥈 Argent</span></td></tr>
-          <tr class="tr" data-n="sport"><td style="font-weight:700;color:var(--ink4)">4</td><td><div style="display:flex;align-items:center;gap:12px"><div class="tav" style="background:#E3F2FD">🏃<div class="tv">✓</div></div><div><div style="font-weight:700">Marc Lebrun</div><div style="font-size:12px;color:var(--ink4)">@marclt</div></div></div></td><td><span class="rpl" style="background:#FFE8E5;color:#E1306C">IG</span></td><td style="font-size:13px">210k</td><td style="font-size:13px;color:var(--ink4)">2.8%</td><td><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px;font-weight:700">85</span><div class="sbar"><div class="sfill" style="width:85%"></div></div></div></td><td><span class="badge bar">🥈 Argent</span></td></tr>
-          <tr class="tr" data-n="voyage"><td style="font-weight:700;color:var(--ink4)">5</td><td><div style="display:flex;align-items:center;gap:12px"><div class="tav" style="background:#FFF3E0">✈️<div class="tv">✓</div></div><div><div style="font-weight:700">Sophie V.</div><div style="font-size:12px;color:var(--ink4)">@sophievoyage</div></div></div></td><td><span class="rpl" style="background:#F0F0F0;color:#333">TT</span></td><td style="font-size:13px">156k</td><td style="font-size:13px;color:var(--ink4)">5.1%</td><td><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px;font-weight:700">83</span><div class="sbar"><div class="sfill" style="width:83%"></div></div></div></td><td><span class="badge bar">🥈 Argent</span></td></tr>
-          <tr class="tr" data-n="tech"><td style="font-weight:700;color:var(--ink4)">6</td><td><div style="display:flex;align-items:center;gap:12px"><div class="tav" style="background:#EDE7F6">💻<div class="tv">✓</div></div><div><div style="font-weight:700">Alex Durand</div><div style="font-size:12px;color:var(--ink4)">@alextech</div></div></div></td><td><span class="rpl" style="background:#FFE8E5;color:#E1306C">IG</span></td><td style="font-size:13px">78k</td><td style="font-size:13px;color:var(--ink4)">4.7%</td><td><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px;font-weight:700">79</span><div class="sbar"><div class="sfill" style="width:79%"></div></div></div></td><td><span class="badge bbr">🥉 Bronze</span></td></tr>
-          <tr class="tr" data-n="mode"><td style="font-weight:700;color:var(--ink4)">7</td><td><div style="display:flex;align-items:center;gap:12px"><div class="tav" style="background:#FCE4EC">👗<div class="tv">✓</div></div><div><div style="font-weight:700">Nina Petit</div><div style="font-size:12px;color:var(--ink4)">@ninapetit</div></div></div></td><td><span class="rpl" style="background:#FFE8E5;color:#E1306C">IG</span></td><td style="font-size:13px">234k</td><td style="font-size:13px;color:var(--ink4)">1.9%</td><td><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px;font-weight:700">76</span><div class="sbar"><div class="sfill" style="width:76%"></div></div></div></td><td><span class="badge bbr">🥉 Bronze</span></td></tr>
-        </tbody>
-      </table>
+<section id="solution">
+  <div class="solution">
+    <div class="stag">Ce qu'on vous offre</div>
+    <h2 class="stitle">Des outils pour prendre<br><em>les bonnes décisions</em></h2>
+    <p class="ssub">Un classement certifié des meilleurs influenceurs France et un analyseur instantané pour vérifier n'importe quel profil.</p>
+    <div class="fgrid">
+      <div class="fcard"><div class="ficon" style="background:rgba(232,65,42,0.08)">🏆</div><div class="ftitle">Classement certifié en temps réel</div><div class="fdesc">Les meilleurs influenceurs France par niche — Sport, Food, Lifestyle et Beauté — classés par score d'authenticité. Données mises à jour chaque semaine. Filtrable par taille d'audience et engagement.</div><span class="ftag">Sport · Food · Lifestyle · Beauté</span></div>
+      <div class="fcard"><div class="ficon" style="background:rgba(245,166,35,0.08)">🔍</div><div class="ftitle">Analyseur de profil instantané</div><div class="fdesc">Entrez n'importe quel pseudo Instagram. En 30 secondes : score d'authenticité, taux d'engagement réel, analyse des commentaires et détection de faux followers.</div><span class="ftag">Analyse en 30 secondes</span></div>
+      <div class="fcard"><div class="ficon" style="background:rgba(30,200,160,0.08)">📊</div><div class="ftitle">Score BeVerified sur 100</div><div class="fdesc">Chaque profil est noté sur 5 piliers : authenticité de l'audience, qualité de l'engagement, démographie, cohérence éditoriale et historique. Un score transparent.</div><span class="ftag">5 piliers · 100 points</span></div>
+      <div class="fcard"><div class="ficon" style="background:rgba(22,18,14,0.05)">⚡</div><div class="ftitle">Alertes et signaux suspects</div><div class="fdesc">Notre algorithme détecte automatiquement les pics de croissance suspects, les commentaires génériques, les ratios anormaux et les pods d'engagement artificiels.</div><span class="ftag">Détection automatique</span></div>
     </div>
   </div>
 </section>
 
-<section id="comment" class="how-s">
-  <div style="max-width:1200px;margin:0 auto">
-    <div class="tag">Comment ça marche</div>
-    <h2>Simple. Transparent.<br><em>Impossible à falsifier.</em></h2>
-    <p class="sub">15 critères analysés chaque mois. Aucun créateur ne peut acheter sa place.</p>
+<div class="stats-band">
+  <div class="srow">
+    <div class="scell"><div class="sn">500+</div><div class="sl">Profils analysés chaque mois</div></div>
+    <div class="scell"><div class="sn">48h</div><div class="sl">Pour certifier un profil complet</div></div>
+    <div class="scell"><div class="sn">15</div><div class="sl">Critères d'analyse par profil</div></div>
+    <div class="scell"><div class="sn">3×</div><div class="sl">Meilleur ROI garanti</div></div>
   </div>
-  <div class="hgrid">
-    <div class="hcard"><div class="hnum">01</div><div class="hicon" style="background:rgba(232,65,42,0.15)">🔍</div><h3 class="htitle">Analyse automatisée</h3><p class="hdesc">Nos algorithmes analysent chaque profil sur 15 critères : qualité des abonnés, cohérence d'engagement, détection de pods et faux followers.</p></div>
-    <div class="hcard"><div class="hnum">02</div><div class="hicon" style="background:rgba(245,166,35,0.15)">🧠</div><h3 class="htitle">Score BeVerified</h3><p class="hdesc">Chaque créateur reçoit un score de 0 à 100 et un niveau de certification : Bronze, Argent ou Or. Le score est recalculé chaque mois.</p></div>
-    <div class="hcard"><div class="hnum">03</div><div class="hicon" style="background:rgba(30,200,160,0.15)">✅</div><h3 class="htitle">Badge & Classement</h3><p class="hdesc">Les créateurs certifiés reçoivent un badge officiel BeVerified et apparaissent dans le classement public accessible aux marques.</p></div>
+</div>
+
+<section id="comment">
+  <div class="how">
+    <div class="stag">Comment ça marche</div>
+    <h2 class="stitle">Marche à suivre<br><em>en 3 étapes</em></h2>
+    <p class="ssub">Accès immédiat après votre paiement. Pas de formation, pas d'intégration complexe.</p>
+    <div class="hsteps">
+      <div class="hstep"><div class="hnum">1</div><div class="htitle">Vous souscrivez</div><div class="hdesc">Choisissez votre formule et recevez immédiatement vos identifiants d'accès par email.</div></div>
+      <div class="hstep"><div class="hnum">2</div><div class="htitle">Vous accédez</div><div class="hdesc">Consultez le classement certifié Sport et Food ou analysez n'importe quel influenceur en 30 secondes.</div></div>
+      <div class="hstep"><div class="hnum">3</div><div class="htitle">Vous collaborez</div><div class="hdesc">Contactez les influenceurs certifiés avec la certitude d'une audience 100% authentique.</div></div>
+    </div>
   </div>
 </section>
 
 <section id="tarifs">
-  <div class="sec">
-    <div class="tag">Tarifs</div>
-    <h2>Transparent.<br><em>Sans surprise.</em></h2>
-    <p class="sub">Un modèle simple côté créateurs, un accès puissant côté marques.</p>
-    <div class="pgrid">
-      <div>
-        <div class="plabel"><span class="pdot" style="background:#E8412A"></span>Pour les créateurs</div>
-        <div class="pcard">
-          <div class="pname">Basic</div>
-          <div class="pamount">49€<span>/mois</span></div>
-          <div class="pdesc">Profil vérifié + badge officiel</div>
-          <ul class="pfeat"><li>Analyse complète sur 15 critères</li><li>Badge BeVerified certifié</li><li>Rapport PDF mensuel</li><li>Apparition dans le classement</li></ul>
+  <div class="pricing-s">
+    <div class="pricing-inner">
+      <h2>Nos <em>tarifs</em></h2>
+      <p class="psub">Deux formules pour les marques. Aucun engagement. Annulez quand vous voulez.</p>
+      <div class="pcards">
+        <div class="pc">
+          <div class="pn">Accès Marque</div>
+          <div class="pa">299€<span>/mois</span></div>
+          <div class="pd">Pour les marques qui veulent trouver les bons influenceurs</div>
+          <ul class="pf">
+            <li>Classement complet Sport et Food France</li>
+            <li>Analyseur de profil illimité</li>
+            <li>Score BeVerified sur 100</li>
+            <li>Alertes et signaux suspects</li>
+            <li>Mise à jour en temps réel</li>
+          </ul>
         </div>
-        <div class="pcard" style="border-color:rgba(232,65,42,0.3)">
-          <span class="fpill">Populaire</span>
-          <div class="pname">Pro</div>
-          <div class="pamount">149€<span>/mois</span></div>
-          <div class="pdesc">Mise en avant + accès marques</div>
-          <ul class="pfeat"><li>Tout Basic inclus</li><li>Mise en avant dans les résultats</li><li>Accès aux briefs marques</li><li>Support prioritaire</li></ul>
-        </div>
-      </div>
-      <div>
-        <div class="plabel"><span class="pdot" style="background:#F5A623"></span>Pour les marques</div>
-        <div class="pcard">
-          <div class="pname">Accès Marque</div>
-          <div class="pamount">299€<span>/mois</span></div>
-          <div class="pdesc">Accès complet au classement</div>
-          <ul class="pfeat"><li>Classement complet filtrable</li><li>Rapports détaillés par créateur</li><li>Contacts directs des créateurs</li><li>Alertes nouvelles certifications</li></ul>
-        </div>
-        <div class="pcard">
-          <div class="pname">Accès Agence</div>
-          <div class="pamount">799€<span>/mois</span></div>
-          <div class="pdesc">Multi-clients + exports</div>
-          <ul class="pfeat"><li>Tout Accès Marque inclus</li><li>Multi-utilisateurs</li><li>Exports CSV/PDF illimités</li><li>Account manager dédié</li></ul>
+        <div class="pc feat">
+          <span class="fpill">Recommandé</span>
+          <div class="pn">Accès Agence</div>
+          <div class="pa">799€<span>/mois</span></div>
+          <div class="pd">Pour les agences qui gèrent plusieurs clients</div>
+          <ul class="pf">
+            <li>Tout Accès Marque inclus</li>
+            <li>5 accès simultanés</li>
+            <li>Exports CSV des classements</li>
+            <li>Classements personnalisés par niche</li>
+            <li>Account manager dédié</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="cta-s" id="waitlist">
-  <div class="cta-box">
-    <div class="cglow"></div>
-    <h2 class="ctitle">Sois parmi<br>les <em>premiers vérifiés</em></h2>
-    <p class="csub">Les 50 premiers créateurs sont vérifiés gratuitement le premier mois. Les 10 premières marques ont 30 jours d'accès offerts.</p>
-    <div class="wform">
-      <input type="email" class="winput" placeholder="ton@email.com" id="wEmail">
-      <button class="wbtn" id="wBtn" type="button">Rejoindre →</button>
+<section id="contact">
+  <div class="cta-s">
+    <div class="cbox">
+      <div class="cglow"></div>
+      <h2 class="ctitle">Demandez<br><em>l'accès</em></h2>
+      <p class="csub">Laissez votre email — nous vous contactons sous 24h pour un accès personnalisé et une démonstration de la plateforme.</p>
+      <div class="wform">
+        <input type="email" class="winput" placeholder="votre@email.fr" id="wEmail">
+        <button class="wbtn" id="wBtn" type="button">Rejoindre →</button>
+      </div>
+      <div class="wnote" id="wNote">🔒 Accès sécurisé · <span>Réponse sous 24h</span></div>
     </div>
-    <div class="wnote" id="wNote">🔒 Pas de spam · <span>Lancement printemps 2026</span></div>
   </div>
-</div>
+</section>
 
 <footer>
   <div class="foot">
     <span class="fcopy">© 2026 BeVerified — Tous droits réservés</span>
     <ul class="flinks">
-      <li><a href="/cdn-cgi/l/email-protection#2a424f4646456a484f5c4f58434c434f4e044c58">Contact</a></li>
+      <li><a href="/cdn-cgi/l/email-protection#d3bbb6bfbfbc93b1b6a5b6a1bab5bab6b7fdb5a1">Contact</a></li>
       <li><a href="#">Mentions légales</a></li>
     </ul>
   </div>
 </footer>
 
-<script>
-// Filtres classement
-document.querySelectorAll('.tchip').forEach(function(c) {
-  c.addEventListener('click', function() {
-    document.querySelectorAll('.tchip').forEach(function(x){x.classList.remove('on')});
-    c.classList.add('on');
-    var n = c.getAttribute('data-n');
-    document.querySelectorAll('#tbody .tr').forEach(function(r){
-      r.style.display = (n==='tous'||r.getAttribute('data-n')===n)?'':'none';
-    });
-  });
-});
-
-// WAITLIST
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var btn = document.getElementById('wBtn');
 var inp = document.getElementById('wEmail');
 var note = document.getElementById('wNote');
-
 btn.addEventListener('click', function() {
   var email = inp.value.trim();
   if (!email || email.indexOf('@') < 0) {
@@ -397,29 +350,18 @@ btn.addEventListener('click', function() {
   }
   btn.textContent = '...';
   btn.disabled = true;
-  note.innerHTML = '⏳ Inscription en cours...';
-  note.style.color = 'rgba(255,255,255,0.5)';
   fetch('/api/subscribe', {
     method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({email: email})
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ email: email })
   })
-  .then(function(r){return r.json()})
-  .then(function(){
-    note.innerHTML = '✅ Bienvenue dans la communauté BeVerified ! Tu seras parmi les premiers à être contacté.';
+  .then(function(r){ return r.json(); })
+  .then(function() {
+    note.innerHTML = '✅ Demande reçue ! Vous recevrez vos accès sous 24h.';
     note.style.color = '#1EC8A0';
     inp.value = '';
   })
-  .catch(function(){
-    note.innerHTML = '✅ Bienvenue dans la communauté BeVerified ! Tu seras parmi les premiers à être contacté.';
+  .catch(function() {
+    note.innerHTML = '✅ Demande reçue ! Vous recevrez vos accès sous 24h.';
     note.style.color = '#1EC8A0';
-    inp.value = '';
-  })
-  .finally(function(){
-    btn.textContent = 'Rejoindre →';
-    btn.disabled = false;
-  });
-});
-</script>
-</body>
-</html>
+    inp.
