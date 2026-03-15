@@ -91,13 +91,13 @@ h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;-web
 .pricing-s h2{font-size:clamp(28px,3.5vw,44px);font-weight:900;color:white;line-height:1.1;margin-bottom:12px}
 .pricing-s h2 em{font-style:normal;color:var(--a2)}
 .psub{font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:56px}
-.pcards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;text-align:left}
+.pcards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;text-align:left}.pcards-3{grid-template-columns:repeat(3,1fr)}
 .pc{background:#1A1714;border-radius:var(--radius);padding:36px;border:1.5px solid rgba(255,255,255,0.06);position:relative;transition:all .2s}
 .pc:hover{border-color:rgba(232,65,42,0.3);transform:translateY(-3px)}
 .pc.feat{border-color:rgba(232,65,42,0.4);background:#1F1510}
 .fpill{position:absolute;top:-12px;left:24px;background:var(--a1);color:white;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:100px}
 .pn{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:10px}
-.pa{font-size:44px;font-weight:900;color:white;line-height:1;margin-bottom:4px}
+.pa{font-size:clamp(28px,4vw,44px);font-weight:900;color:white;line-height:1;margin-bottom:4px}
 .pa span{font-size:18px;font-weight:400;color:rgba(255,255,255,0.4)}
 .pd{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:28px}
 .pf{list-style:none;display:flex;flex-direction:column;gap:12px}
@@ -135,7 +135,7 @@ footer{background:var(--ink);padding:40px 48px;border-top:1px solid rgba(255,255
   .how{padding:60px 20px}
   .hsteps{grid-template-columns:1fr;gap:32px}
   .pricing-s{padding:60px 20px}
-  .pcards{grid-template-columns:1fr}
+  .pcards{grid-template-columns:1fr}  .pcards-3{grid-template-columns:1fr}
   .cta-s{padding:60px 20px}
   .cbox{padding:48px 24px}
   .wform{flex-direction:column}
@@ -281,7 +281,7 @@ footer{background:var(--ink);padding:40px 48px;border-top:1px solid rgba(255,255
     <div class="pricing-inner">
       <h2>Nos <em>tarifs</em></h2>
       <p class="psub">Trois formules selon vos besoins. Paiement ponctuel, aucun renouvellement automatique.</p>
-      <div class="pcards" style="grid-template-columns:repeat(3,1fr)">
+      <div class="pcards pcards-3">
         <div class="pc">
           <div class="pn">Essential</div>
           <div class="pa">299€<span>/mois</span></div>
@@ -310,7 +310,7 @@ footer{background:var(--ink);padding:40px 48px;border-top:1px solid rgba(255,255
           <a href="/demarrer" style="display:block;margin-top:24px;background:var(--a1);color:white;text-align:center;padding:12px;border-radius:100px;text-decoration:none;font-size:13px;font-weight:700;transition:all .2s">Choisir →</a>
         </div>
         <div class="pc">
-          <div class="pn">Agence</div>
+          <div class="pn">Elite</div>
           <div class="pa">2 490€<span> / an</span></div>
           <div class="pd">Pour les agences qui gèrent plusieurs clients</div>
           <ul class="pf">
